@@ -62,19 +62,29 @@ def get_J_live_info(Jfeed):
     myrtleAv = all_Lstops['M11S']
     return myrtleAv
 
+#### TODO: do Z stops too when running
 
-liveMorg = get_L_live_info(feed_L)
-liveMyrtl = get_M_live_info(feed_M)
-liveMyrtlJ = get_J_live_info(feed_J)
 
-# now = datetime.datetime.now(newYorkTz)
-def demo_myrtle_av():
-    liveMorg = get_L_live_info(feed_L)
+# liveMorg = get_L_live_info(feed_L)
+# liveMyrtl = get_M_live_info(feed_M)
+# liveMyrtlJ = get_J_live_info(feed_J)
+
+def demo_both():
     now = datetime.now(newYorkTz)
-    arrivals = [int(round((i-now).total_seconds()/60)) for i in liveMorg]
-    arrivals = [j for j in arrivals if ((j>0) and (j<30))]
-    arrivals_raw = [(i-now).total_seconds()/60 for i in liveMorg]
+    live_Myrtle_J = get_J_live_info(feed_J)
+    live_Myrtle_M = get_M_live_info(feed_M)
+    live_Morgan = get_L_live_info(feed_L)
+    arrivals_J = [int(round((i-now).total_seconds()/60)) for i in live_Myrtle_J]
+    arrivals_J = [j for j in arrivals_J if ((j>0) and (j<30))]
+    arrivals_M = [int(round((i-now).total_seconds()/60)) for i in live_Myrtle_M]
+    arrivals_M = [j for j in arrivals_M if ((j>0) and (j<30))]
+    arrivals_L = [int(round((i-now).total_seconds()/60)) for i in live_Morgan]
+    arrivals_L = [j for j in arrivals_L if ((j>0) and (j<30))]
     
-    return arrivals,arrivals_raw
-
-test,test_raw = demo_myrtle_av()
+    print('Next Myrtle Ave J trains are in (min): {}'.format(arrivals_J))
+    print('Next Myrtle Ave M trains are in (min): {}'.format(arrivals_M))
+    print('Next Morgan Ave L trains are in (min): {}'.format(arrivals_L))
+    # arrivals = [j for j in arrivals if ((j>0) and (j<30))]
+    
+    return arrivals_J
+test = demo_both()

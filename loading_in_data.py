@@ -1,16 +1,16 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sat Jun 24 14:56:48 2023
 
 @author: amhar
 """
 
-from underground import *
-from underground.cli.findstops import *
-import underground.feed
+# from underground import *
+# from underground.cli.findstops import *
+# import underground.feed
+from underground.models import SubwayFeed
 import os
 from pandas import read_csv
-import pytz
+from pytz import timezone as tz
 from datetime import datetime
 #############
 ### FLAGS ###
@@ -19,7 +19,7 @@ needLUT=False
 #################
 ##GLOBAL VARS####
 #################
-newYorkTz = pytz.timezone("America/New_York")
+newYorkTz = tz("America/New_York")
 API_KEY = 'TdfMPEIzV26MOcndtJN0j3igqthjPNFS4flMBhEE' #API key to access MTA API
 feed_M = SubwayFeed.get('M',api_key=API_KEY)
 feed_L = SubwayFeed.get('L',api_key=API_KEY)
@@ -80,11 +80,9 @@ def demo_both():
     arrivals_M = [j for j in arrivals_M if ((j>0) and (j<30))]
     arrivals_L = [int(round((i-now).total_seconds()/60)) for i in live_Morgan]
     arrivals_L = [j for j in arrivals_L if ((j>0) and (j<30))]
-    
     print('Next Myrtle Ave J trains are in (min): {}'.format(arrivals_J))
     print('Next Myrtle Ave M trains are in (min): {}'.format(arrivals_M))
     print('Next Morgan Ave L trains are in (min): {}'.format(arrivals_L))
-    # arrivals = [j for j in arrivals if ((j>0) and (j<30))]
     
     return arrivals_J
 test = demo_both()
